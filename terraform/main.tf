@@ -1,4 +1,3 @@
-
 locals {
   stage = "${terraform.workspace}"
 }
@@ -26,14 +25,15 @@ provider "aws" {
   region = "${var.cognito-region}"
 }
 
-module "api-gateway" {
-  source = "./api-gateway"
-  providers = {
-    aws = "aws"
-  }
+module "iam" {
+  source = "./iam/"
   stage = "${local.stage}"
-  region = "${var.region}"
-  account_id = "${data.aws_caller_identity.current.account_id}"
 }
 
-
+module "api-gw" {
+  source = "./api-gateway"
+  region = "${var.region}"
+  stage = "${local.stage}"
+  account_id = "${data.aws_caller_identity.current.account_id}"
+  apigw_role_arn = "${module.iam.api-gw-role-arn}"
+}
