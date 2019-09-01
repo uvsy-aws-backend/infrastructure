@@ -1,4 +1,3 @@
-
 locals {
   stage = "${terraform.workspace}"
 }
@@ -17,23 +16,26 @@ variable "cognito-region" {
 
 provider "aws" {
   version = "~> 2.25"
+  profile = "uvsy-terraform-dev"
   region = "${var.region}"
 }
 
 provider "aws" {
   version = "~> 2.25"
-  alias = "cogito-aws"
+  profile = "uvsy-terraform-dev"
+  alias = "cognito-aws"
   region = "${var.cognito-region}"
 }
 
-module "api-gateway" {
-  source = "./api-gateway"
-  providers = {
-    aws = "aws"
-  }
+module "iam" {
+  source = "./iam/"
   stage = "${local.stage}"
-  region = "${var.region}"
-  account_id = "${data.aws_caller_identity.current.account_id}"
 }
 
-
+module "api-gw" {
+  source = "./api-gateway"
+  region = "${var.region}"
+  stage = "${local.stage}"
+  account_id = "${data.aws_caller_identity.current.account_id}"
+  apigw_role_arn = "${module.iam.api-gw-role-arn}"
+}
