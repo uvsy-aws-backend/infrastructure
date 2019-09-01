@@ -16,12 +16,14 @@ variable "cognito-region" {
 
 provider "aws" {
   version = "~> 2.25"
+  profile = "uvsy-terraform-dev"
   region = "${var.region}"
 }
 
 provider "aws" {
   version = "~> 2.25"
-  alias = "cogito-aws"
+  profile = "uvsy-terraform-dev"
+  alias = "cognito-aws"
   region = "${var.cognito-region}"
 }
 
