@@ -1,13 +1,13 @@
 # Universy AWS Infrastructure
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 
 This is the project where we manage our `IaC`. For this we use [`terraform`](https://www.terraform.io/). 
 
 
 ### Instalation 
 
-In order to get the instalation of terraform you'll need to run (on linux): 
-
-`sudo snap install terraform`
+In order to get the instalation of terraform you'll need to download the `terraform cli` from [here](https://www.terraform.io/downloads.html)
 
 ### AWS plugin
 
