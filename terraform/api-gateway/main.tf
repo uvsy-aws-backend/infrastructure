@@ -13,3 +13,11 @@ module "api-account" {
   region = "${var.region}"
   apigw_role_arn = "${var.apigw_role_arn}"
 }
+
+module "api-institutions" {
+  source = "./api-institution"
+  stage = "${var.stage}"
+  account_id = "${var.account_id}"
+  region = "${var.region}"
+  apigw_role_arn = "${var.apigw_role_arn}"
+}

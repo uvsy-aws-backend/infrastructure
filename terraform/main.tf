@@ -57,7 +57,6 @@ module "cognito" {
 
 
 # Parameters to be consumed by serverless
-
 resource "aws_ssm_parameter" "cognito-region" {
   name = "/${local.stage}/cognito/region"
   type = "String"
