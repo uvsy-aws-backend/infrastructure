@@ -15,7 +15,7 @@ module "api-account" {
 }
 
 module "api-institutions" {
-  source = "./api-institutions"
+  source = "./api-institution"
   stage = "${var.stage}"
   account_id = "${var.account_id}"
   region = "${var.region}"

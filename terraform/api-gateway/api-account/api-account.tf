@@ -8,7 +8,6 @@ variable "apigw_role_arn" {}
 
 
 # API Creation
-
 resource "aws_api_gateway_rest_api" "api-account" {
   name = "${var.stage}-api-account"
 
@@ -32,7 +31,6 @@ resource "aws_api_gateway_resource" "account" {
 
 
 # API Endpoints
-
 module "login" {
   source = "./login"
   account_id = "${var.account_id}"
@@ -63,8 +61,8 @@ module "verify" {
   role_arn = "${var.apigw_role_arn}"
 }
 
-# API Deployment
 
+# API Deployment
 resource "aws_api_gateway_deployment" "api-account-deploy" {
   depends_on = [
     "module.login",
@@ -78,7 +76,6 @@ resource "aws_api_gateway_deployment" "api-account-deploy" {
 
 
 # API Key and Usage Plan
-
 resource "aws_api_gateway_api_key" "api-account-key" {
   name = "${var.stage}-account-key"
 }

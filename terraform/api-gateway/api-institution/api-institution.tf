@@ -8,7 +8,6 @@ variable "apigw_role_arn" {}
 
 
 # API Creation
-
 resource "aws_api_gateway_rest_api" "api-institution" {
   name = "${var.stage}-api-institution"
 
@@ -30,8 +29,8 @@ resource "aws_api_gateway_resource" "institution" {
   path_part = "institution"
 }
 
-# API Endpoints
 
+# API Endpoints
 module "career" {
   source = "./career"
   account_id = "${var.account_id}"
@@ -52,8 +51,18 @@ module "profile" {
   role_arn = "${var.apigw_role_arn}"
 }
 
-# API Deployment
+module "rate" {
+  source = "./rate"
+  account_id = "${var.account_id}"
+  region = "${var.region}"
+  stage = "${var.stage}"
+  api_id = "${aws_api_gateway_rest_api.api-institution.id}"
+  parent_id = "${aws_api_gateway_resource.institution.id}"
+  role_arn = "${var.apigw_role_arn}"
+}
 
+
+# API Deployment
 resource "aws_api_gateway_deployment" "api-institution-deploy" {
   depends_on = [
     "module.career",
@@ -64,8 +73,8 @@ resource "aws_api_gateway_deployment" "api-institution-deploy" {
   stage_name  = "${var.stage}"
 }
 
-# API Key and Usage Plan
 
+# API Key and Usage Plan
 resource "aws_api_gateway_api_key" "api-institution-key" {
   name = "${var.stage}-institution-key"
 }

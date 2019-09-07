@@ -38,13 +38,3 @@ resource "aws_api_gateway_integration" "career_get_lambda_integration" {
   credentials = "${var.role_arn}"
   uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.postLambdaArn}/invocations"
 }
-
-module "rate" {
-  source = "./rate"
-  account_id = "${var.account_id}"
-  region = "${var.region}"
-  stage = "${var.stage}"
-  api_id = "${var.api_id}"
-  parent_id = "${aws_api_gateway_resource.career.id}"
-  role_arn = "${var.role_arn}"
-}
