@@ -66,7 +66,8 @@ module "rate" {
 resource "aws_api_gateway_deployment" "api-institution-deploy" {
   depends_on = [
     "module.career",
-    "module.profile"
+    "module.profile",
+    "module.rate"
   ]
 
   rest_api_id = "${aws_api_gateway_rest_api.api-institution.id}"
