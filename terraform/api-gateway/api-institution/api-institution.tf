@@ -94,3 +94,17 @@ resource "aws_api_gateway_usage_plan_key" "api-institutions-usage-plan-key" {
   key_type      = "API_KEY"
   usage_plan_id = "${aws_api_gateway_usage_plan.api-institution-usage-plan.id}"
 }
+
+
+# SSM Parameters
+resource "aws_ssm_parameter" "api-institution-endpoint" {
+  name = "/${var.stage}/apigw/api-institution/endpoint"
+  type = "String"
+  value = "${aws_api_gateway_deployment.api-institution-deploy.invoke_url}"
+}
+
+resource "aws_ssm_parameter" "api-institution-key" {
+  name = "/${var.stage}/apigw/api-institution/key"
+  type = "String"
+  value = "${aws_api_gateway_api_key.api-institution-key.value}"
+}

@@ -33,7 +33,7 @@ resource "aws_api_gateway_integration" "course_get_lambda_integration" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.course.id}"
   http_method = "${aws_api_gateway_method.course_get.http_method}"
-  integration_http_method = "GET"
+  integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
   uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.postLambdaArn}/invocations"

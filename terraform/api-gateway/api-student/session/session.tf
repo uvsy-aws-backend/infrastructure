@@ -11,32 +11,32 @@ variable "parent_id" {}
 variable "role_arn" {}
 
 locals {
-  getLambdaName = "${var.stage}-java-lambda-student-subject-rate-get"
+  getLambdaName = "${var.stage}-java-lambda-student-session-get"
   getLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.getLambdaName}"
 
-  postLambdaName = "${var.stage}-java-lambda-student-subject-rate-post"
+  postLambdaName = "${var.stage}-java-lambda-student-session-post"
   postLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.postLambdaName}"
 }
 
-resource "aws_api_gateway_resource" "subject" {
+resource "aws_api_gateway_resource" "session" {
   rest_api_id = "${var.api_id}"
   parent_id = "${var.parent_id}"
-  path_part = "subject"
+  path_part = "session"
 }
 
 # GET
-resource "aws_api_gateway_method" "subject_get" {
+resource "aws_api_gateway_method" "session_get" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.subject.id}"
+  resource_id = "${aws_api_gateway_resource.session.id}"
   http_method = "GET"
   authorization = "NONE"
   api_key_required = true
 }
 
-resource "aws_api_gateway_integration" "subject_get_lambda_integration" {
+resource "aws_api_gateway_integration" "session_get_lambda_integration" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.subject.id}"
-  http_method = "${aws_api_gateway_method.subject_get.http_method}"
+  resource_id = "${aws_api_gateway_resource.session.id}"
+  http_method = "${aws_api_gateway_method.session_get.http_method}"
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
@@ -44,18 +44,18 @@ resource "aws_api_gateway_integration" "subject_get_lambda_integration" {
 }
 
 # POST
-resource "aws_api_gateway_method" "subject_post" {
+resource "aws_api_gateway_method" "session_post" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.subject.id}"
+  resource_id = "${aws_api_gateway_resource.session.id}"
   http_method = "POST"
   authorization = "NONE"
   api_key_required = true
 }
 
-resource "aws_api_gateway_integration" "subject_post_lambda_integration" {
+resource "aws_api_gateway_integration" "session_post_lambda_integration" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.subject.id}"
-  http_method = "${aws_api_gateway_method.subject_post.http_method}"
+  resource_id = "${aws_api_gateway_resource.session.id}"
+  http_method = "${aws_api_gateway_method.session_post.http_method}"
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"

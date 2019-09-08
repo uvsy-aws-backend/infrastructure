@@ -94,3 +94,17 @@ resource "aws_api_gateway_usage_plan_key" "api-account-usage-plan-key" {
   key_type      = "API_KEY"
   usage_plan_id = "${aws_api_gateway_usage_plan.api-account-usage-plan.id}"
 }
+
+
+# SSM Parameters
+resource "aws_ssm_parameter" "api-account-endpoint" {
+  name = "/${var.stage}/apigw/api-account/endpoint"
+  type = "String"
+  value = "${aws_api_gateway_deployment.api-account-deploy.invoke_url}"
+}
+
+resource "aws_ssm_parameter" "api-account-key" {
+  name = "/${var.stage}/apigw/api-account/key"
+  type = "String"
+  value = "${aws_api_gateway_api_key.api-account-key.value}"
+}

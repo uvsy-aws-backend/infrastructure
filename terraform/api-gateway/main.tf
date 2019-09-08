@@ -14,7 +14,7 @@ module "api-account" {
   apigw_role_arn = "${var.apigw_role_arn}"
 }
 
-module "api-institutions" {
+module "api-institution" {
   source = "./api-institution"
   stage = "${var.stage}"
   account_id = "${var.account_id}"
