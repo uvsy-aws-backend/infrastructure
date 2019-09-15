@@ -10,6 +10,8 @@ variable "parent_id" {}
 
 variable "role_arn" {}
 
+variable "authorizer_id" {}
+
 locals {
   postLambdaName = "${var.stage}-java-lambda-institution-course-rate-get"
   postLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.postLambdaName}"
@@ -25,7 +27,8 @@ resource "aws_api_gateway_method" "course_get" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.course.id}"
   http_method = "GET"
-  authorization = "NONE"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = "${var.authorizer_id}"
   api_key_required = true
 }
 

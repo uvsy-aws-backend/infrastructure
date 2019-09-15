@@ -4,7 +4,12 @@ variable "stage" {}
 
 variable "region" {}
 
+variable "cognito-region" {}
+
 variable "apigw_role_arn" {}
+
+variable "cognito_user_pool_id" {}
+
 
 
 # API Creation
@@ -29,6 +34,14 @@ resource "aws_api_gateway_resource" "student" {
   path_part = "student"
 }
 
+# Authorizer
+resource "aws_api_gateway_authorizer" "api-student-authorizer" {
+  name          = "${aws_api_gateway_rest_api.api-student.name}-authorizer"
+  type          = "COGNITO_USER_POOLS"
+  rest_api_id   = "${aws_api_gateway_rest_api.api-student.id}"
+  provider_arns = ["arn:aws:cognito-idp:${var.cognito-region}:${var.account_id}:userpool/${var.cognito_user_pool_id}"]
+  identity_source = "method.request.header.token-id"
+}
 
 # API Endpoints
 module "career" {
@@ -39,6 +52,7 @@ module "career" {
   api_id = "${aws_api_gateway_rest_api.api-student.id}"
   parent_id = "${aws_api_gateway_resource.student.id}"
   role_arn = "${var.apigw_role_arn}"
+  authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
 }
 
 module "profile" {
@@ -49,6 +63,7 @@ module "profile" {
   api_id = "${aws_api_gateway_rest_api.api-student.id}"
   parent_id = "${aws_api_gateway_resource.student.id}"
   role_arn = "${var.apigw_role_arn}"
+  authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
 }
 
 module "rate" {
@@ -59,6 +74,7 @@ module "rate" {
   api_id = "${aws_api_gateway_rest_api.api-student.id}"
   parent_id = "${aws_api_gateway_resource.student.id}"
   role_arn = "${var.apigw_role_arn}"
+  authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
 }
 
 module "session" {
@@ -69,6 +85,7 @@ module "session" {
   api_id = "${aws_api_gateway_rest_api.api-student.id}"
   parent_id = "${aws_api_gateway_resource.student.id}"
   role_arn = "${var.apigw_role_arn}"
+  authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
 }
 
 # API Deployment

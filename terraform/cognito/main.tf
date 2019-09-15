@@ -17,3 +17,7 @@ module "universy-clients" {
 output "universy-mobile-client-id" {
   value = "${module.universy-clients.universy-mobile-client-id}"
 }
+
+output "universy-user-pool-id" {
+  value = "${module.universy-user-pool.user_pool_id}"
+}
