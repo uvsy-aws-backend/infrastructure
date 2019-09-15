@@ -10,6 +10,8 @@ variable "parent_id" {}
 
 variable "role_arn" {}
 
+variable "authorizer_id" {}
+
 locals {
   getLambdaName = "${var.stage}-java-lambda-student-course-rate-get"
   getLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.getLambdaName}"
@@ -29,7 +31,8 @@ resource "aws_api_gateway_method" "course_get" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.course.id}"
   http_method = "GET"
-  authorization = "NONE"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = "${var.authorizer_id}"
   api_key_required = true
 }
 
@@ -48,7 +51,8 @@ resource "aws_api_gateway_method" "course_post" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.course.id}"
   http_method = "POST"
-  authorization = "NONE"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = "${var.authorizer_id}"
   api_key_required = true
 }
 

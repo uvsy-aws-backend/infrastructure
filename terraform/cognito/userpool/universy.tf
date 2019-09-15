@@ -59,6 +59,7 @@ resource "aws_cognito_user_pool" "universy" {
   }
 
   email_configuration {
+    # TODO: Migrate to SES
     source_arn = "arn:aws:ses:us-east-1:${var.account_id}:identity/info.universy@gmail.com"
   }
 }

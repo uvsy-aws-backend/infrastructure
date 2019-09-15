@@ -35,17 +35,6 @@ module "iam" {
   }
 }
 
-module "api-gw" {
-  source = "./api-gateway"
-  region = "${var.default-region}"
-  stage = "${local.stage}"
-  account_id = "${data.aws_caller_identity.current.account_id}"
-  apigw_role_arn = "${module.iam.api-gw-role-arn}"
-  providers = {
-    aws = "aws"
-  }
-}
-
 module "cognito" {
   source = "./cognito"
   stage = "${local.stage}"
@@ -54,6 +43,20 @@ module "cognito" {
     aws = "aws.cognito-aws"
   }
 }
+
+module "api-gw" {
+  source = "./api-gateway"
+  region = "${var.default-region}"
+  cognito-region = "${var.cognito-region}"
+  stage = "${local.stage}"
+  account_id = "${data.aws_caller_identity.current.account_id}"
+  apigw_role_arn = "${module.iam.api-gw-role-arn}"
+  cognito_user_pool_id = "${module.cognito.universy-user-pool-id}"
+  providers = {
+    aws = "aws"
+  }
+}
+
 
 
 # Parameters to be consumed by serverless
