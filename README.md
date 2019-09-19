@@ -44,7 +44,7 @@ Simply run:
 > You need to have `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
 
 
-# Serverless Stack Deploy
+## Serverless Stack Deploy
 
 
 ## Structure
