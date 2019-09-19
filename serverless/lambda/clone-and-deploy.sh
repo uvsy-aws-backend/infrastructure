@@ -24,8 +24,6 @@ while getopts ":p:s:r:l:v:" opt; do
   esac
 done
 
-echo "${REGION} ${PROFILE} ${STAGE} ${LAMBDA} ${VERSION}"
-
 if [ -z "$STAGE" ]; then
       echo "Stage must be defined."
       exit 1
@@ -51,7 +49,7 @@ if [ -z "$VERSION" ]; then
       exit 1
 fi
 
-# Create temporary folder to build and deploy from
+# Change to temporary folder from which to build and deploy from
 cd tmp || exit
 
 # Clone project
