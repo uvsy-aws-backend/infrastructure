@@ -8,7 +8,7 @@ and [`serverless`](https://serverless.com/)
 
 ## Terraform Stack Deploy
 
-With terraform we create the base structure: 
+With `terraform` we create the base structure: 
 
 - Amazon API Gateway
 - Cognito Userpool and clients
@@ -46,6 +46,11 @@ Simply run:
 
 ## Serverless Stack Deploy
 
+With `serverless` we create the logic and storage:
+
+- AWS Lambda
+- DynamoDB
+- DynamoDB Streams
 
 ## Structure
 
