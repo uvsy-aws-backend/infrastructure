@@ -7,11 +7,11 @@ data "aws_caller_identity" "current" {
 }
 
 variable "default-region" {
-  default = "us-east-1"
+  default = "sa-east-1"
 }
 
 variable "cognito-region" {
-  default = "us-east-2"
+  default = "us-east-1"
 }
 
 provider "aws" {
@@ -52,6 +52,13 @@ module "api-gw" {
   account_id = "${data.aws_caller_identity.current.account_id}"
   apigw_role_arn = "${module.iam.api-gw-role-arn}"
   cognito_user_pool_id = "${module.cognito.universy-user-pool-id}"
+  providers = {
+    aws = "aws"
+  }
+}
+
+module "s3" {
+  source = "./s3"
   providers = {
     aws = "aws"
   }

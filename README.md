@@ -1,9 +1,20 @@
 # Universy AWS Infrastructure
+[![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com)
+
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 
-This is the project where we manage our `IaC`. For this we use [`terraform`](https://www.terraform.io/). 
+This is the project where we manage our `IaC`. For this we use [`terraform`](https://www.terraform.io/) 
+and [`terraform`](https://www.terraform.io/)   
 
+## Terraform Stack Deploy
+
+With terraform we create the base structure: 
+
+- Amazon API Gateway
+- Cognito Userpool and clients
+- S3 buckets
+- IAM Roles
 
 ### Instalation 
 
@@ -32,3 +43,23 @@ Simply run:
 `terraform apply` 
 
 > You need to have `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+
+
+# Serverless Stack Deploy
+
+
+## Structure
+
+The project and the version to deploy are in the file: 
+
+`./serverless/deploy.properties`
+
+## Deploy
+
+In order to deploy all of the projects declared in `deploy.properties` first:
+
+`cd serverless`
+
+Then run: 
+
+`./deployStack.sh`
