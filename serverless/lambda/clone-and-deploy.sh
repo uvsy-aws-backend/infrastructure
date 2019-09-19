@@ -55,11 +55,9 @@ fi
 cd tmp || exit
 
 # Clone project
-#git clone "https://github.com/uvsy-aws-backend/${LAMBDA}.git"
 git clone -b "${VERSION}" --single-branch --depth 1 "https://github.com/uvsy-aws-backend/${LAMBDA}.git"
 
 cd "${LAMBDA}" || echo "No folder ${LAMBDA} found"
-#git checkout "${VERSION}"
 
 # Build project
 ./gradlew clean build -x test

@@ -5,7 +5,7 @@
 
 
 This is the project where we manage our `IaC`. For this we use [`terraform`](https://www.terraform.io/) 
-and [`terraform`](https://www.terraform.io/)   
+and [`serverless`](https://serverless.com/)   
 
 ## Terraform Stack Deploy
 
