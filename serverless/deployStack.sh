@@ -6,6 +6,21 @@ export PROFILE="uvsy-sls-dev"
 export STAGE="dev2"
 export REGION="sa-east-1"
 
+while getopts ":p:s:r:" opt; do
+  case $opt in
+    p) PROFILE=$OPTARG
+    ;;
+    s) STAGE=$OPTARG
+    ;;
+    r) REGION=$OPTARG
+    ;;
+    \?) echo "Invalid parameter -$OPTARG" >&2
+    ;;
+  esac
+done
+
+echo "Deploy stage [$STAGE] at region [$REGION] with profile [$PROFILE]"
+
 if [ -f "$file" ]; then
   chmod +x ./lambda/clone-and-deploy.sh
 
