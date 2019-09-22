@@ -39,7 +39,7 @@ resource "aws_api_gateway_authorizer" "api-institution-authorizer" {
   type          = "COGNITO_USER_POOLS"
   rest_api_id   = "${aws_api_gateway_rest_api.api-institution.id}"
   provider_arns = ["arn:aws:cognito-idp:${var.cognito-region}:${var.account_id}:userpool/${var.cognito_user_pool_id}"]
-  identity_source = "method.request.header.token-id"
+  identity_source = "method.request.header.id-token"
 }
 
 # API Endpoints

@@ -7,11 +7,11 @@ data "aws_caller_identity" "current" {
 }
 
 variable "default-region" {
-  default = "us-east-1"
+  default = "sa-east-1"
 }
 
 variable "cognito-region" {
-  default = "us-east-2"
+  default = "us-east-1"
 }
 
 provider "aws" {
@@ -56,7 +56,6 @@ module "api-gw" {
     aws = "aws"
   }
 }
-
 
 
 # Parameters to be consumed by serverless
