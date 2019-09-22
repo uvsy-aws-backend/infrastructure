@@ -1,6 +1,5 @@
 # Universy AWS Infrastructure
 [![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com)
-
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 
@@ -9,7 +8,7 @@ and [`serverless`](https://serverless.com/)
 
 ## Terraform Stack Deploy
 
-With terraform we create the base structure: 
+With `terraform` we create the base structure: 
 
 - Amazon API Gateway
 - Cognito Userpool and clients
@@ -45,8 +44,13 @@ Simply run:
 > You need to have `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
 
 
-# Serverless Stack Deploy
+## Serverless Stack Deploy
 
+With `serverless` we create the logic and storage:
+
+- AWS Lambda
+- DynamoDB
+- DynamoDB Streams
 
 ## Structure
 
