@@ -43,8 +43,8 @@ resource "aws_api_gateway_authorizer" "api-institution-authorizer" {
 }
 
 # API Endpoints
-module "career" {
-  source = "./career"
+module "subjects" {
+  source = "./subjects"
   account_id = "${var.account_id}"
   region = "${var.region}"
   stage = "${var.stage}"
@@ -80,7 +80,7 @@ module "rate" {
 # API Deployment
 resource "aws_api_gateway_deployment" "api-institution-deploy" {
   depends_on = [
-    "module.career",
+    "module.subjects",
     "module.profile",
     "module.rate"
   ]
