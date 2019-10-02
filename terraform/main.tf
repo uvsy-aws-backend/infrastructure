@@ -60,6 +60,7 @@ module "api-gw" {
 module "s3" {
   source = "./s3"
   stage = "${local.stage}"
+  region = "${var.default-region}"
 }
 
 
