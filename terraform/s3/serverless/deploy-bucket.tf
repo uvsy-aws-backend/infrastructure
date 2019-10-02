@@ -1,5 +1,8 @@
+variable "stage" {}
+
+variable "region" {}
 
 resource "aws_s3_bucket" "serverless_deploy_bucket" {
-  bucket = "universy.serverless.deploys"
+  bucket = "${var.stage}.${var.region}.universy.serverless.deploys"
   acl    = "private"
 }

@@ -57,6 +57,12 @@ module "api-gw" {
   }
 }
 
+module "s3" {
+  source = "./s3"
+  stage = "${local.stage}"
+  region = "${var.default-region}"
+}
+
 
 # Parameters to be consumed by serverless
 resource "aws_ssm_parameter" "cognito-region" {
