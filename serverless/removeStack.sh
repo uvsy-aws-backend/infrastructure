@@ -3,7 +3,7 @@
 file="deploy.properties"
 
 export PROFILE="uvsy-sls-dev"
-export STAGE="dev3"
+export STAGE="sat1"
 export REGION="sa-east-1"
 
 while getopts ":p:s:r:" opt; do
@@ -38,7 +38,7 @@ if [ -f "$file" ]; then
     project="${deploy%%:*}"
     version="${deploy##*:}"
 
-    ./lambda/clone-and-deploy.sh \
+    ./lambda/clone-and-remove.sh \
       -p "${PROFILE}" \
       -s "${STAGE}" \
       -r "${REGION}" \

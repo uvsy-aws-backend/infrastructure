@@ -34,8 +34,7 @@ resource "aws_api_gateway_method" "career_get" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.career.id}"
   http_method = "GET"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = "${var.authorizer_id}"
+  authorization = "NONE"
   api_key_required = true
 }
 
@@ -54,8 +53,7 @@ resource "aws_api_gateway_method" "career_post" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.career.id}"
   http_method = "POST"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = "${var.authorizer_id}"
+  authorization = "NONE"
   api_key_required = true
 }
 
@@ -74,8 +72,7 @@ resource "aws_api_gateway_method" "career_put" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.career.id}"
   http_method = "PUT"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = "${var.authorizer_id}"
+  authorization = "NONE"
   api_key_required = true
 }
 

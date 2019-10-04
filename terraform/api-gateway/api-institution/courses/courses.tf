@@ -37,8 +37,7 @@ resource "aws_api_gateway_method" "courses_get" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.courses.id}"
   http_method = "GET"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = "${var.authorizer_id}"
+  authorization = "NONE"
   api_key_required = true
 }
 
@@ -57,8 +56,7 @@ resource "aws_api_gateway_method" "courses_post" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.courses.id}"
   http_method = "POST"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = "${var.authorizer_id}"
+  authorization = "NONE"
   api_key_required = true
 }
 
@@ -77,8 +75,7 @@ resource "aws_api_gateway_method" "courses_put" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.courses.id}"
   http_method = "PUT"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = "${var.authorizer_id}"
+  authorization = "NONE"
   api_key_required = true
 }
 
@@ -97,8 +94,7 @@ resource "aws_api_gateway_method" "courses_delete" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.courses.id}"
   http_method = "DELETE"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = "${var.authorizer_id}"
+  authorization = "NONE"
   api_key_required = true
 }
 
