@@ -50,7 +50,7 @@ if [ -z "$VERSION" ]; then
 fi
 
 printf "\n\n"
-echo "Starting deploy for [${LAMBDA}]"
+echo "Starting remove for [${LAMBDA}]"
 
 # Change to temporary folder from which to build and deploy from
 cd tmp || exit
@@ -61,12 +61,8 @@ git clone -b "${VERSION}" --single-branch --depth 1 "https://github.com/uvsy-aws
 
 cd "${LAMBDA}" || echo "No folder ${LAMBDA} found"
 
-# Build project
-echo "Building artifact [${VERSION}]"
-./gradlew clean build -x test &> /dev/null
-
 # Deploy lambda
-serverless deploy --stage "${STAGE}" --region "${REGION}" --profile "${PROFILE}"
+serverless remove --stage "${STAGE}" --region "${REGION}" --profile "${PROFILE}"
 
 cd ../../
 

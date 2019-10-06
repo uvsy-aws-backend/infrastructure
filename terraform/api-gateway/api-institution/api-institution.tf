@@ -43,6 +43,40 @@ resource "aws_api_gateway_authorizer" "api-institution-authorizer" {
 }
 
 # API Endpoints
+
+module "root" {
+  source = "./root"
+  account_id = "${var.account_id}"
+  region = "${var.region}"
+  stage = "${var.stage}"
+  api_id = "${aws_api_gateway_rest_api.api-institution.id}"
+  parent_id = "${aws_api_gateway_resource.institution.id}"
+  role_arn = "${var.apigw_role_arn}"
+  authorizer_id = "${aws_api_gateway_authorizer.api-institution-authorizer.id}"
+}
+
+module "career" {
+  source = "./careers"
+  account_id = "${var.account_id}"
+  region = "${var.region}"
+  stage = "${var.stage}"
+  api_id = "${aws_api_gateway_rest_api.api-institution.id}"
+  parent_id = "${aws_api_gateway_resource.institution.id}"
+  role_arn = "${var.apigw_role_arn}"
+  authorizer_id = "${aws_api_gateway_authorizer.api-institution-authorizer.id}"
+}
+
+module "programs" {
+  source = "./programs"
+  account_id = "${var.account_id}"
+  region = "${var.region}"
+  stage = "${var.stage}"
+  api_id = "${aws_api_gateway_rest_api.api-institution.id}"
+  parent_id = "${aws_api_gateway_resource.institution.id}"
+  role_arn = "${var.apigw_role_arn}"
+  authorizer_id = "${aws_api_gateway_authorizer.api-institution-authorizer.id}"
+}
+
 module "subjects" {
   source = "./subjects"
   account_id = "${var.account_id}"
@@ -56,17 +90,6 @@ module "subjects" {
 
 module "courses" {
   source = "./courses"
-  account_id = "${var.account_id}"
-  region = "${var.region}"
-  stage = "${var.stage}"
-  api_id = "${aws_api_gateway_rest_api.api-institution.id}"
-  parent_id = "${aws_api_gateway_resource.institution.id}"
-  role_arn = "${var.apigw_role_arn}"
-  authorizer_id = "${aws_api_gateway_authorizer.api-institution-authorizer.id}"
-}
-
-module "profile" {
-  source = "./profile"
   account_id = "${var.account_id}"
   region = "${var.region}"
   stage = "${var.stage}"
@@ -91,9 +114,10 @@ module "rate" {
 # API Deployment
 resource "aws_api_gateway_deployment" "api-institution-deploy" {
   depends_on = [
+    "module.career",
+    "module.programs",
     "module.subjects",
     "module.courses",
-    "module.profile",
     "module.rate"
   ]
 

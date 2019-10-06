@@ -31,8 +31,7 @@ resource "aws_api_gateway_method" "profile_get" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.profile.id}"
   http_method = "GET"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = "${var.authorizer_id}"
+  authorization = "NONE"
   api_key_required = true
 }
 
@@ -51,8 +50,7 @@ resource "aws_api_gateway_method" "profile_post" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.profile.id}"
   http_method = "POST"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = "${var.authorizer_id}"
+  authorization = "NONE"
   api_key_required = true
 }
 

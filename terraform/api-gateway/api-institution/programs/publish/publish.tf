@@ -13,29 +13,28 @@ variable "role_arn" {}
 variable "authorizer_id" {}
 
 locals {
-  postLambdaName = "${var.stage}-java-lambda-institution-profile-get"
+  postLambdaName = "${var.stage}-java-lambda-institution-programs-publish-post"
   postLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.postLambdaName}"
 }
 
-resource "aws_api_gateway_resource" "profile" {
+resource "aws_api_gateway_resource" "publish" {
   rest_api_id = "${var.api_id}"
   parent_id = "${var.parent_id}"
-  path_part = "profile"
+  path_part = "publish"
 }
 
-resource "aws_api_gateway_method" "profile_get" {
+resource "aws_api_gateway_method" "publish_post" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.profile.id}"
-  http_method = "GET"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = "${var.authorizer_id}"
+  resource_id = "${aws_api_gateway_resource.publish.id}"
+  http_method = "POST"
+  authorization = "NONE"
   api_key_required = true
 }
 
-resource "aws_api_gateway_integration" "profile_get_lambda_integration" {
+resource "aws_api_gateway_integration" "publish_post_lambda_integration" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.profile.id}"
-  http_method = "${aws_api_gateway_method.profile_get.http_method}"
+  resource_id = "${aws_api_gateway_resource.publish.id}"
+  http_method = "${aws_api_gateway_method.publish_post.http_method}"
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
