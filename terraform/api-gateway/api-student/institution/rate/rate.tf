@@ -19,7 +19,7 @@ resource "aws_api_gateway_resource" "rate" {
 }
 
 module "subject" {
-  source = "./subject"
+  source = "subject"
   account_id = "${var.account_id}"
   region = "${var.region}"
   stage = "${var.stage}"
@@ -30,7 +30,7 @@ module "subject" {
 }
 
 module "course" {
-  source = "./course"
+  source = "course"
   account_id = "${var.account_id}"
   region = "${var.region}"
   stage = "${var.stage}"

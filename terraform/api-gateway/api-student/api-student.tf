@@ -88,12 +88,38 @@ module "session" {
   authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
 }
 
+module "institution" {
+  source = "./institution"
+  account_id = "${var.account_id}"
+  region = "${var.region}"
+  stage = "${var.stage}"
+  api_id = "${aws_api_gateway_rest_api.api-student.id}"
+  parent_id = "${aws_api_gateway_resource.student.id}"
+  role_arn = "${var.apigw_role_arn}"
+  authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
+}
+
+module "account" {
+  source = "./account"
+  account_id = "${var.account_id}"
+  region = "${var.region}"
+  stage = "${var.stage}"
+  api_id = "${aws_api_gateway_rest_api.api-student.id}"
+  parent_id = "${aws_api_gateway_resource.student.id}"
+  role_arn = "${var.apigw_role_arn}"
+  authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
+}
+
+
 # API Deployment
 resource "aws_api_gateway_deployment" "api-student-deploy" {
   depends_on = [
     "module.career",
     "module.profile",
-    "module.rate"
+    "module.rate",
+    "module.session",
+    "module.institution",
+    "module.account",
   ]
 
   rest_api_id = "${aws_api_gateway_rest_api.api-student.id}"
@@ -101,6 +127,10 @@ resource "aws_api_gateway_deployment" "api-student-deploy" {
 
   variables {
     deployed_at = "${timestamp()}"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
