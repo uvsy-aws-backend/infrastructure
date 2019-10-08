@@ -26,6 +26,15 @@ resource "aws_api_gateway_resource" "career" {
   path_part = "careers"
 }
 
+# CORS
+module "cors" {
+  source = "github.com/squidfunk/terraform-aws-api-gateway-enable-cors"
+  version = "0.3.0"
+
+  api_id = "${var.api_id}"
+  api_resource_id = "${aws_api_gateway_resource.career.id}"
+}
+
 # POST
 resource "aws_api_gateway_method" "career_post" {
   rest_api_id = "${var.api_id}"
