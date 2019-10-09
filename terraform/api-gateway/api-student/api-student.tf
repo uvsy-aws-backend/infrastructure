@@ -28,12 +28,6 @@ resource "aws_api_gateway_resource" "universy" {
   path_part = "universy"
 }
 
-resource "aws_api_gateway_resource" "student" {
-  rest_api_id = "${aws_api_gateway_rest_api.api-student.id}"
-  parent_id = "${aws_api_gateway_resource.universy.id}"
-  path_part = "student"
-}
-
 # Authorizer
 resource "aws_api_gateway_authorizer" "api-student-authorizer" {
   name          = "${aws_api_gateway_rest_api.api-student.name}-authorizer"
@@ -44,46 +38,13 @@ resource "aws_api_gateway_authorizer" "api-student-authorizer" {
 }
 
 # API Endpoints
-module "career" {
-  source = "./career"
+module "student" {
+  source = "./student"
   account_id = "${var.account_id}"
   region = "${var.region}"
   stage = "${var.stage}"
   api_id = "${aws_api_gateway_rest_api.api-student.id}"
-  parent_id = "${aws_api_gateway_resource.student.id}"
-  role_arn = "${var.apigw_role_arn}"
-  authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
-}
-
-module "profile" {
-  source = "./profile"
-  account_id = "${var.account_id}"
-  region = "${var.region}"
-  stage = "${var.stage}"
-  api_id = "${aws_api_gateway_rest_api.api-student.id}"
-  parent_id = "${aws_api_gateway_resource.student.id}"
-  role_arn = "${var.apigw_role_arn}"
-  authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
-}
-
-module "rate" {
-  source = "./rate"
-  account_id = "${var.account_id}"
-  region = "${var.region}"
-  stage = "${var.stage}"
-  api_id = "${aws_api_gateway_rest_api.api-student.id}"
-  parent_id = "${aws_api_gateway_resource.student.id}"
-  role_arn = "${var.apigw_role_arn}"
-  authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
-}
-
-module "session" {
-  source = "./session"
-  account_id = "${var.account_id}"
-  region = "${var.region}"
-  stage = "${var.stage}"
-  api_id = "${aws_api_gateway_rest_api.api-student.id}"
-  parent_id = "${aws_api_gateway_resource.student.id}"
+  parent_id = "${aws_api_gateway_resource.universy.id}"
   role_arn = "${var.apigw_role_arn}"
   authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
 }
@@ -94,7 +55,7 @@ module "institution" {
   region = "${var.region}"
   stage = "${var.stage}"
   api_id = "${aws_api_gateway_rest_api.api-student.id}"
-  parent_id = "${aws_api_gateway_resource.student.id}"
+  parent_id = "${aws_api_gateway_resource.universy.id}"
   role_arn = "${var.apigw_role_arn}"
   authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
 }
@@ -105,7 +66,7 @@ module "account" {
   region = "${var.region}"
   stage = "${var.stage}"
   api_id = "${aws_api_gateway_rest_api.api-student.id}"
-  parent_id = "${aws_api_gateway_resource.student.id}"
+  parent_id = "${aws_api_gateway_resource.universy.id}"
   role_arn = "${var.apigw_role_arn}"
   authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
 }
@@ -114,10 +75,7 @@ module "account" {
 # API Deployment
 resource "aws_api_gateway_deployment" "api-student-deploy" {
   depends_on = [
-    "module.career",
-    "module.profile",
-    "module.rate",
-    "module.session",
+    "module.student",
     "module.institution",
     "module.account",
   ]
