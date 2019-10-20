@@ -3,7 +3,7 @@
 file="deploy.properties"
 
 export PROFILE="uvsy-sls-dev"
-export STAGE="dev2"
+export STAGE="dev3"
 export REGION="sa-east-1"
 
 while getopts ":p:s:r:" opt; do

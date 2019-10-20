@@ -17,7 +17,7 @@ resource "aws_api_gateway_rest_api" "api-institution" {
 
   endpoint_configuration {
     types = [
-    "REGIONAL"]
+      "REGIONAL"]
   }
 }
 
@@ -35,9 +35,9 @@ resource "aws_api_gateway_resource" "institution" {
 
 # Authorizer
 resource "aws_api_gateway_authorizer" "api-institution-authorizer" {
-  name          = "${aws_api_gateway_rest_api.api-institution.name}-authorizer"
-  type          = "COGNITO_USER_POOLS"
-  rest_api_id   = "${aws_api_gateway_rest_api.api-institution.id}"
+  name = "${aws_api_gateway_rest_api.api-institution.name}-authorizer"
+  type = "COGNITO_USER_POOLS"
+  rest_api_id = "${aws_api_gateway_rest_api.api-institution.id}"
   provider_arns = ["arn:aws:cognito-idp:${var.cognito-region}:${var.account_id}:userpool/${var.cognito_user_pool_id}"]
   identity_source = "method.request.header.id-token"
 }
@@ -99,36 +99,27 @@ module "courses" {
   authorizer_id = "${aws_api_gateway_authorizer.api-institution-authorizer.id}"
 }
 
-module "rate" {
-  source = "./rate"
-  account_id = "${var.account_id}"
-  region = "${var.region}"
-  stage = "${var.stage}"
-  api_id = "${aws_api_gateway_rest_api.api-institution.id}"
-  parent_id = "${aws_api_gateway_resource.institution.id}"
-  role_arn = "${var.apigw_role_arn}"
-  authorizer_id = "${aws_api_gateway_authorizer.api-institution-authorizer.id}"
-}
-
-
 # API Deployment
 resource "aws_api_gateway_deployment" "api-institution-deploy" {
   depends_on = [
+    "module.root",
     "module.career",
     "module.programs",
     "module.subjects",
     "module.courses",
-    "module.rate"
   ]
 
   rest_api_id = "${aws_api_gateway_rest_api.api-institution.id}"
-  stage_name  = "${var.stage}"
+  stage_name = "${var.stage}"
 
   variables {
     deployed_at = "${timestamp()}"
   }
-}
 
+  lifecycle {
+    create_before_destroy = true
+  }
+}
 
 # API Key and Usage Plan
 resource "aws_api_gateway_api_key" "api-institution-key" {
@@ -145,8 +136,8 @@ resource "aws_api_gateway_usage_plan" "api-institution-usage-plan" {
 }
 
 resource "aws_api_gateway_usage_plan_key" "api-institutions-usage-plan-key" {
-  key_id        = "${aws_api_gateway_api_key.api-institution-key.id}"
-  key_type      = "API_KEY"
+  key_id = "${aws_api_gateway_api_key.api-institution-key.id}"
+  key_type = "API_KEY"
   usage_plan_id = "${aws_api_gateway_usage_plan.api-institution-usage-plan.id}"
 }
 

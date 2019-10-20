@@ -13,48 +13,39 @@ variable "role_arn" {}
 variable "authorizer_id" {}
 
 locals {
-  getLambdaName = "${var.stage}-java-lambda-institution-subjects-get"
+  getLambdaName = "${var.stage}-java-lambda-student-events-get"
   getLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.getLambdaName}"
   
-  postLambdaName = "${var.stage}-java-lambda-institution-subjects-post"
+  postLambdaName = "${var.stage}-java-lambda-student-events-post"
   postLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.postLambdaName}"
   
-  putLambdaName = "${var.stage}-java-lambda-institution-subjects-put"
+  putLambdaName = "${var.stage}-java-lambda-student-events-put"
   putLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.putLambdaName}"
   
-  deleteLambdaName = "${var.stage}-java-lambda-institution-subjects-delete"
+  deleteLambdaName = "${var.stage}-java-lambda-student-events-delete"
   deleteLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.deleteLambdaName}"
 }
 
-resource "aws_api_gateway_resource" "subjects" {
+resource "aws_api_gateway_resource" "events" {
   rest_api_id = "${var.api_id}"
   parent_id = "${var.parent_id}"
-  path_part = "subjects"
-}
-
-# CORS
-module "cors" {
-  source = "github.com/squidfunk/terraform-aws-api-gateway-enable-cors"
-  version = "0.3.0"
-
-  api_id = "${var.api_id}"
-  api_resource_id = "${aws_api_gateway_resource.subjects.id}"
+  path_part = "events"
 }
 
 
 # GET
-resource "aws_api_gateway_method" "subjects_get" {
+resource "aws_api_gateway_method" "events_get" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.subjects.id}"
+  resource_id = "${aws_api_gateway_resource.events.id}"
   http_method = "GET"
   authorization = "NONE"
   api_key_required = true
 }
 
-resource "aws_api_gateway_integration" "subjects_get_lambda_integration" {
+resource "aws_api_gateway_integration" "events_get_lambda_integration" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.subjects.id}"
-  http_method = "${aws_api_gateway_method.subjects_get.http_method}"
+  resource_id = "${aws_api_gateway_resource.events.id}"
+  http_method = "${aws_api_gateway_method.events_get.http_method}"
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
@@ -62,18 +53,18 @@ resource "aws_api_gateway_integration" "subjects_get_lambda_integration" {
 }
 
 # POST
-resource "aws_api_gateway_method" "subjects_post" {
+resource "aws_api_gateway_method" "events_post" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.subjects.id}"
+  resource_id = "${aws_api_gateway_resource.events.id}"
   http_method = "POST"
   authorization = "NONE"
   api_key_required = true
 }
 
-resource "aws_api_gateway_integration" "subjects_post_lambda_integration" {
+resource "aws_api_gateway_integration" "events_post_lambda_integration" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.subjects.id}"
-  http_method = "${aws_api_gateway_method.subjects_post.http_method}"
+  resource_id = "${aws_api_gateway_resource.events.id}"
+  http_method = "${aws_api_gateway_method.events_post.http_method}"
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
@@ -81,18 +72,18 @@ resource "aws_api_gateway_integration" "subjects_post_lambda_integration" {
 }
 
 # PUT
-resource "aws_api_gateway_method" "subjects_put" {
+resource "aws_api_gateway_method" "events_put" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.subjects.id}"
+  resource_id = "${aws_api_gateway_resource.events.id}"
   http_method = "PUT"
   authorization = "NONE"
   api_key_required = true
 }
 
-resource "aws_api_gateway_integration" "subjects_put_lambda_integration" {
+resource "aws_api_gateway_integration" "events_put_lambda_integration" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.subjects.id}"
-  http_method = "${aws_api_gateway_method.subjects_put.http_method}"
+  resource_id = "${aws_api_gateway_resource.events.id}"
+  http_method = "${aws_api_gateway_method.events_put.http_method}"
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
@@ -100,18 +91,18 @@ resource "aws_api_gateway_integration" "subjects_put_lambda_integration" {
 }
 
 # DELETE
-resource "aws_api_gateway_method" "subjects_delete" {
+resource "aws_api_gateway_method" "events_delete" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.subjects.id}"
+  resource_id = "${aws_api_gateway_resource.events.id}"
   http_method = "DELETE"
   authorization = "NONE"
   api_key_required = true
 }
 
-resource "aws_api_gateway_integration" "subjects_delete_lambda_integration" {
+resource "aws_api_gateway_integration" "events_delete_lambda_integration" {
   rest_api_id = "${var.api_id}"
-  resource_id = "${aws_api_gateway_resource.subjects.id}"
-  http_method = "${aws_api_gateway_method.subjects_delete.http_method}"
+  resource_id = "${aws_api_gateway_resource.events.id}"
+  http_method = "${aws_api_gateway_method.events_delete.http_method}"
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"

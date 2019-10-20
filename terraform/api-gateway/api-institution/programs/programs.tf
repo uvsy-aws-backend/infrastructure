@@ -32,6 +32,15 @@ resource "aws_api_gateway_resource" "programs" {
   path_part = "programs"
 }
 
+# CORS
+module "cors" {
+  source = "github.com/squidfunk/terraform-aws-api-gateway-enable-cors"
+  version = "0.3.0"
+
+  api_id = "${var.api_id}"
+  api_resource_id = "${aws_api_gateway_resource.programs.id}"
+}
+
 # GET
 resource "aws_api_gateway_method" "programs_get" {
   rest_api_id = "${var.api_id}"

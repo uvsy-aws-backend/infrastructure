@@ -17,16 +17,6 @@ locals {
   postLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.postLambdaName}"
 }
 
-# CORS
-module "cors" {
-  source = "github.com/squidfunk/terraform-aws-api-gateway-enable-cors"
-  version = "0.3.0"
-
-  api_id = "${var.api_id}"
-  api_resource_id = "${var.parent_id}"
-}
-
-# GET
 resource "aws_api_gateway_method" "institution_get" {
   rest_api_id = "${var.api_id}"
   resource_id = "${var.parent_id}"

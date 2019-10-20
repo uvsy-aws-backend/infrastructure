@@ -28,12 +28,6 @@ resource "aws_api_gateway_resource" "universy" {
   path_part = "universy"
 }
 
-resource "aws_api_gateway_resource" "student" {
-  rest_api_id = "${aws_api_gateway_rest_api.api-student.id}"
-  parent_id = "${aws_api_gateway_resource.universy.id}"
-  path_part = "student"
-}
-
 # Authorizer
 resource "aws_api_gateway_authorizer" "api-student-authorizer" {
   name          = "${aws_api_gateway_rest_api.api-student.name}-authorizer"
@@ -44,56 +38,46 @@ resource "aws_api_gateway_authorizer" "api-student-authorizer" {
 }
 
 # API Endpoints
-module "career" {
-  source = "./career"
+module "student" {
+  source = "./student"
   account_id = "${var.account_id}"
   region = "${var.region}"
   stage = "${var.stage}"
   api_id = "${aws_api_gateway_rest_api.api-student.id}"
-  parent_id = "${aws_api_gateway_resource.student.id}"
+  parent_id = "${aws_api_gateway_resource.universy.id}"
   role_arn = "${var.apigw_role_arn}"
   authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
 }
 
-module "profile" {
-  source = "./profile"
+module "institution" {
+  source = "./institution"
   account_id = "${var.account_id}"
   region = "${var.region}"
   stage = "${var.stage}"
   api_id = "${aws_api_gateway_rest_api.api-student.id}"
-  parent_id = "${aws_api_gateway_resource.student.id}"
+  parent_id = "${aws_api_gateway_resource.universy.id}"
   role_arn = "${var.apigw_role_arn}"
   authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
 }
 
-module "rate" {
-  source = "./rate"
+module "account" {
+  source = "./account"
   account_id = "${var.account_id}"
   region = "${var.region}"
   stage = "${var.stage}"
   api_id = "${aws_api_gateway_rest_api.api-student.id}"
-  parent_id = "${aws_api_gateway_resource.student.id}"
+  parent_id = "${aws_api_gateway_resource.universy.id}"
   role_arn = "${var.apigw_role_arn}"
   authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
 }
 
-module "session" {
-  source = "./session"
-  account_id = "${var.account_id}"
-  region = "${var.region}"
-  stage = "${var.stage}"
-  api_id = "${aws_api_gateway_rest_api.api-student.id}"
-  parent_id = "${aws_api_gateway_resource.student.id}"
-  role_arn = "${var.apigw_role_arn}"
-  authorizer_id = "${aws_api_gateway_authorizer.api-student-authorizer.id}"
-}
 
 # API Deployment
 resource "aws_api_gateway_deployment" "api-student-deploy" {
   depends_on = [
-    "module.career",
-    "module.profile",
-    "module.rate"
+    "module.student",
+    "module.institution",
+    "module.account",
   ]
 
   rest_api_id = "${aws_api_gateway_rest_api.api-student.id}"
@@ -101,6 +85,10 @@ resource "aws_api_gateway_deployment" "api-student-deploy" {
 
   variables {
     deployed_at = "${timestamp()}"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 

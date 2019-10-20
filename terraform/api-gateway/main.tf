@@ -10,14 +10,6 @@ variable "apigw_role_arn" {}
 
 variable "cognito_user_pool_id" {}
 
-module "api-account" {
-  source = "./api-account"
-  stage = "${var.stage}"
-  account_id = "${var.account_id}"
-  region = "${var.region}"
-  apigw_role_arn = "${var.apigw_role_arn}"
-}
-
 module "api-institution" {
   source = "./api-institution"
   stage = "${var.stage}"
