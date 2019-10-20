@@ -64,3 +64,25 @@ module "session" {
   role_arn = "${var.role_arn}"
   authorizer_id = "${var.authorizer_id}"
 }
+
+module "events" {
+  source = "./events"
+  account_id = "${var.account_id}"
+  region = "${var.region}"
+  stage = "${var.stage}"
+  api_id = "${var.api_id}"
+  parent_id = "${aws_api_gateway_resource.student.id}"
+  role_arn = "${var.role_arn}"
+  authorizer_id = "${var.authorizer_id}"
+}
+
+module "notes" {
+  source = "./notes"
+  account_id = "${var.account_id}"
+  region = "${var.region}"
+  stage = "${var.stage}"
+  api_id = "${var.api_id}"
+  parent_id = "${aws_api_gateway_resource.student.id}"
+  role_arn = "${var.role_arn}"
+  authorizer_id = "${var.authorizer_id}"
+}
