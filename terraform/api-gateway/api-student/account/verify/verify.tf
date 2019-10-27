@@ -11,10 +11,8 @@ variable "parent_id" {}
 variable "role_arn" {}
 
 locals {
-  postLambdaName = "${var.stage}-java-lambda-account-verify-post"
-  postLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.postLambdaName}"
-  getLambdaName = "${var.stage}-java-lambda-account-verify-get"
-  getLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.getLambdaName}"
+  lambdaName = "${var.stage}-java-lambda-account"
+  lambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.lambdaName}"
 }
 
 resource "aws_api_gateway_resource" "verify" {
@@ -38,7 +36,7 @@ resource "aws_api_gateway_integration" "verify_post_lambda_integration" {
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
-  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.postLambdaArn}/invocations"
+  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.lambdaArn}/invocations"
 }
 
 resource "aws_api_gateway_method" "verify_get" {
@@ -56,6 +54,6 @@ resource "aws_api_gateway_integration" "verify_get_lambda_integration" {
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
-  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.getLambdaArn}/invocations"
+  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.lambdaArn}/invocations"
 }
 
