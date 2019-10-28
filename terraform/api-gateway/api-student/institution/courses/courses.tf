@@ -13,8 +13,8 @@ variable "role_arn" {}
 variable "authorizer_id" {}
 
 locals {
-  getLambdaName = "${var.stage}-java-lambda-institution-courses-get"
-  getLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.getLambdaName}"
+  lambdaName = "${var.stage}-java-lambda-institution-courses"
+  lambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.lambdaName}"
 }
 
 resource "aws_api_gateway_resource" "courses" {
@@ -39,5 +39,5 @@ resource "aws_api_gateway_integration" "courses_get_lambda_integration" {
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
-  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.getLambdaArn}/invocations"
+  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.lambdaArn}/invocations"
 }
