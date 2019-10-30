@@ -13,7 +13,7 @@ variable "role_arn" {}
 variable "authorizer_id" {}
 
 locals {
-  lambdaName = "${var.stage}-java-lambda-institution-careers"
+  lambdaName = "${var.stage}-java-lambda-institution"
   lambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.lambdaName}"
 }
 
