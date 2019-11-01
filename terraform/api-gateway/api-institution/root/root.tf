@@ -13,8 +13,8 @@ variable "role_arn" {}
 variable "authorizer_id" {}
 
 locals {
-  postLambdaName = "${var.stage}-java-lambda-institution-get"
-  postLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.postLambdaName}"
+  lambdaName = "${var.stage}-java-lambda-institution"
+  lambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.lambdaName}"
 }
 
 # CORS
@@ -42,5 +42,5 @@ resource "aws_api_gateway_integration" "institution_get_lambda_integration" {
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
-  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.postLambdaArn}/invocations"
+  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.lambdaArn}/invocations"
 }

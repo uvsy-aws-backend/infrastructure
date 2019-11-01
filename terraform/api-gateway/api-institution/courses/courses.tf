@@ -13,17 +13,8 @@ variable "role_arn" {}
 variable "authorizer_id" {}
 
 locals {
-  getLambdaName = "${var.stage}-java-lambda-institution-courses-get"
-  getLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.getLambdaName}"
-  
-  postLambdaName = "${var.stage}-java-lambda-institution-courses-post"
-  postLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.postLambdaName}"
-  
-  putLambdaName = "${var.stage}-java-lambda-institution-courses-put"
-  putLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.putLambdaName}"
-  
-  deleteLambdaName = "${var.stage}-java-lambda-institution-courses-delete"
-  deleteLambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.deleteLambdaName}"
+  lambdaName = "${var.stage}-java-lambda-institution-courses"
+  lambdaArn = "arn:aws:lambda:${var.region}:${var.account_id}:function:${local.lambdaName}"
 }
 
 resource "aws_api_gateway_resource" "courses" {
@@ -58,7 +49,7 @@ resource "aws_api_gateway_integration" "courses_get_lambda_integration" {
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
-  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.getLambdaArn}/invocations"
+  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.lambdaArn}/invocations"
 }
 
 # POST
@@ -77,7 +68,7 @@ resource "aws_api_gateway_integration" "courses_post_lambda_integration" {
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
-  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.postLambdaArn}/invocations"
+  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.lambdaArn}/invocations"
 }
 
 # PUT
@@ -96,7 +87,7 @@ resource "aws_api_gateway_integration" "courses_put_lambda_integration" {
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
-  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.putLambdaArn}/invocations"
+  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.lambdaArn}/invocations"
 }
 
 # DELETE
@@ -115,5 +106,5 @@ resource "aws_api_gateway_integration" "courses_delete_lambda_integration" {
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
-  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.deleteLambdaArn}/invocations"
+  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.lambdaArn}/invocations"
 }
