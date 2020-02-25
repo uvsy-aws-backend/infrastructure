@@ -21,7 +21,7 @@ resource "aws_api_gateway_resource" "institution" {
 # API Endpoints
 
 module "root" {
-  source = "root"
+  source = "./root"
   account_id = "${var.account_id}"
   region = "${var.region}"
   stage = "${var.stage}"
@@ -32,7 +32,7 @@ module "root" {
 }
 
 module "subjects" {
-  source = "subjects"
+  source = "./subjects"
   account_id = "${var.account_id}"
   region = "${var.region}"
   stage = "${var.stage}"
@@ -43,7 +43,7 @@ module "subjects" {
 }
 
 module "courses" {
-  source = "courses"
+  source = "./courses"
   account_id = "${var.account_id}"
   region = "${var.region}"
   stage = "${var.stage}"
@@ -54,7 +54,7 @@ module "courses" {
 }
 
 module "rate" {
-  source = "rate"
+  source = "./rate"
   account_id = "${var.account_id}"
   region = "${var.region}"
   stage = "${var.stage}"

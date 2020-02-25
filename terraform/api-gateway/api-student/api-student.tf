@@ -83,9 +83,9 @@ resource "aws_api_gateway_deployment" "api-student-deploy" {
   rest_api_id = "${aws_api_gateway_rest_api.api-student.id}"
   stage_name  = "${var.stage}"
 
-  variables {
+/*  variables {
     deployed_at = "${timestamp()}"
-  }
+  }*/
 
   lifecycle {
     create_before_destroy = true

@@ -1,6 +1,6 @@
 variable "stage" {}
 
-module "lambda_invoke_policy" "lambda_invoke_policy" {
+module "lambda_invoke_policy" {
   source = "./policies"
   stage = "${var.stage}"
 }

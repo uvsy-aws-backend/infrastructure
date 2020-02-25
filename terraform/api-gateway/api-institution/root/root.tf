@@ -19,8 +19,8 @@ locals {
 
 # CORS
 module "cors" {
-  source = "github.com/squidfunk/terraform-aws-api-gateway-enable-cors"
-  version = "0.3.0"
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.1"
 
   api_id = "${var.api_id}"
   api_resource_id = "${var.parent_id}"
