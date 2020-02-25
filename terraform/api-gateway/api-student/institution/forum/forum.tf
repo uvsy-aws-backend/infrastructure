@@ -41,3 +41,41 @@ resource "aws_api_gateway_integration" "forum_get_lambda_integration" {
   credentials = "${var.role_arn}"
   uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.lambdaArn}/invocations"
 }
+
+# POST
+resource "aws_api_gateway_method" "forum_post" {
+  rest_api_id = "${var.api_id}"
+  resource_id = "${aws_api_gateway_resource.forum.id}"
+  http_method = "POST"
+  authorization = "NONE"
+  api_key_required = false #TODO: Enable
+}
+
+resource "aws_api_gateway_integration" "forum_post_lambda_integration" {
+  rest_api_id = "${var.api_id}"
+  resource_id = "${aws_api_gateway_resource.forum.id}"
+  http_method = "${aws_api_gateway_method.forum_post.http_method}"
+  integration_http_method = "POST"
+  type = "AWS_PROXY"
+  credentials = "${var.role_arn}"
+  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.lambdaArn}/invocations"
+}
+
+# PUT
+resource "aws_api_gateway_method" "forum_put" {
+  rest_api_id = "${var.api_id}"
+  resource_id = "${aws_api_gateway_resource.forum.id}"
+  http_method = "PUT"
+  authorization = "NONE"
+  api_key_required = false #TODO: Enable
+}
+
+resource "aws_api_gateway_integration" "forum_put_lambda_integration" {
+  rest_api_id = "${var.api_id}"
+  resource_id = "${aws_api_gateway_resource.forum.id}"
+  http_method = "${aws_api_gateway_method.forum_put.http_method}"
+  integration_http_method = "POST"
+  type = "AWS_PROXY"
+  credentials = "${var.role_arn}"
+  uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${local.lambdaArn}/invocations"
+}
