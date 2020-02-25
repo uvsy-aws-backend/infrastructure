@@ -42,6 +42,17 @@ module "subjects" {
   authorizer_id = "${var.authorizer_id}"
 }
 
+module "forum" {
+  source = "./forum"
+  account_id = "${var.account_id}"
+  region = "${var.region}"
+  stage = "${var.stage}"
+  api_id = "${var.api_id}"
+  parent_id = "${aws_api_gateway_resource.institution.id}"
+  role_arn = "${var.role_arn}"
+  authorizer_id = "${var.authorizer_id}"
+}
+
 module "courses" {
   source = "./courses"
   account_id = "${var.account_id}"
