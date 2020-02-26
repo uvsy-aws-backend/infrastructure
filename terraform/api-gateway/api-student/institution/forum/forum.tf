@@ -43,7 +43,7 @@ resource "aws_api_gateway_integration" "forum_get_lambda_integration" {
 }
 
 # POST
-resource "aws_api_gateway_method" "forum_post" {
+resource "aws_api_gateway_method" "comment-post" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.forum.id}"
   http_method = "POST"
@@ -54,7 +54,7 @@ resource "aws_api_gateway_method" "forum_post" {
 resource "aws_api_gateway_integration" "forum_post_lambda_integration" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.forum.id}"
-  http_method = "${aws_api_gateway_method.forum_post.http_method}"
+  http_method = "${aws_api_gateway_method.comment-post.http_method}"
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
@@ -62,10 +62,10 @@ resource "aws_api_gateway_integration" "forum_post_lambda_integration" {
 }
 
 # PUT
-resource "aws_api_gateway_method" "forum_put" {
+resource "aws_api_gateway_method" "forum_post" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.forum.id}"
-  http_method = "PUT"
+  http_method = "POST"
   authorization = "NONE"
   api_key_required = false #TODO: Enable
 }
@@ -73,7 +73,7 @@ resource "aws_api_gateway_method" "forum_put" {
 resource "aws_api_gateway_integration" "forum_put_lambda_integration" {
   rest_api_id = "${var.api_id}"
   resource_id = "${aws_api_gateway_resource.forum.id}"
-  http_method = "${aws_api_gateway_method.forum_put.http_method}"
+  http_method = "${aws_api_gateway_method.forum_post.http_method}"
   integration_http_method = "POST"
   type = "AWS_PROXY"
   credentials = "${var.role_arn}"
