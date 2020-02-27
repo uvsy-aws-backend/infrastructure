@@ -147,10 +147,12 @@ resource "aws_ssm_parameter" "api-institution-endpoint" {
   name = "/${var.stage}/apigw/api-institution/endpoint"
   type = "String"
   value = "${aws_api_gateway_deployment.api-institution-deploy.invoke_url}"
+  overwrite = true
 }
 
 resource "aws_ssm_parameter" "api-institution-key" {
   name = "/${var.stage}/apigw/api-institution/key"
   type = "String"
   value = "${aws_api_gateway_api_key.api-institution-key.value}"
+  overwrite = true
 }

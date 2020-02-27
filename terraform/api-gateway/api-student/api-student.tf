@@ -119,10 +119,12 @@ resource "aws_ssm_parameter" "api-student-endpoint" {
   name = "/${var.stage}/apigw/api-student/endpoint"
   type = "String"
   value = "${aws_api_gateway_deployment.api-student-deploy.invoke_url}"
+  overwrite = true
 }
 
 resource "aws_ssm_parameter" "api-student-key" {
   name = "/${var.stage}/apigw/api-student/key"
   type = "String"
   value = "${aws_api_gateway_api_key.api-student-key.value}"
+  overwrite = true
 }

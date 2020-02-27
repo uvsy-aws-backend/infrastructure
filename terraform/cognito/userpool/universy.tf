@@ -10,10 +10,10 @@ resource "aws_cognito_user_pool" "universy" {
     attribute_data_type = "String"
     name = "email"
     required = true
-/*    string_attribute_constraints = {
+    string_attribute_constraints {
       min_length = 0
       max_length = 2048
-    }*/
+    }
   }
 
   schema {
@@ -21,10 +21,10 @@ resource "aws_cognito_user_pool" "universy" {
     attribute_data_type = "String"
     name = "family_name"
     required = true
-/*    string_attribute_constraints = {
+    string_attribute_constraints {
       min_length = 0
       max_length = 2048
-    }*/
+    }
   }
 
   schema {
@@ -32,10 +32,10 @@ resource "aws_cognito_user_pool" "universy" {
     attribute_data_type = "String"
     name = "given_name"
     required = true
-/*    string_attribute_constraints = {
+    string_attribute_constraints {
       min_length = 0
       max_length = 2048
-    }*/
+    }
   }
 
   password_policy {
@@ -44,6 +44,7 @@ resource "aws_cognito_user_pool" "universy" {
     require_numbers = true
     require_symbols = false
     require_uppercase = false
+    temporary_password_validity_days = 7
   }
 
   admin_create_user_config {

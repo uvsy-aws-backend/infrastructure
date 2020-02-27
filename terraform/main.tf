@@ -68,6 +68,7 @@ resource "aws_ssm_parameter" "cognito-region" {
   type     = "String"
   value    = var.cognito-region
   provider = aws
+  overwrite = true
 }
 
 resource "aws_ssm_parameter" "universy-mobile-client-id" {
@@ -75,5 +76,6 @@ resource "aws_ssm_parameter" "universy-mobile-client-id" {
   type     = "String"
   value    = module.cognito.universy-mobile-client-id
   provider = aws
+  overwrite = true
 }
 
