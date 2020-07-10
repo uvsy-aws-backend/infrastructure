@@ -1,9 +1,15 @@
-variable "stage" {}
+data "aws_caller_identity" "current" {
+}
 
-variable "region" {}
+provider "aws" {
+  version = "~> 2.25"
+  profile = "uvsy-dev"
+  region = var.region
+}
+
 
 module "serverless-deploy-bucket" {
   source = "./serverless"
-  stage = "${var.stage}"
-  region = "${var.region}"
+  stage = local.stage
+  region = var.region
 }

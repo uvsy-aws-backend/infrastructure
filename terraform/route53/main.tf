@@ -7,8 +7,8 @@ provider "aws" {
   region = var.region
 }
 
-module "apigw" {
-  source = "./apigw"
+module "compute" {
+  source = "./compute"
   stage = local.stage
   region = var.region
 }

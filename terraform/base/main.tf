@@ -7,8 +7,3 @@ provider "aws" {
   region = var.region
 }
 
-module "apigw" {
-  source = "./apigw"
-  stage = local.stage
-  region = var.region
-}
