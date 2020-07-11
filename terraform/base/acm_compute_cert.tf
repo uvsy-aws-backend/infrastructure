@@ -19,4 +19,3 @@ resource "aws_acm_certificate_validation" "compute_certificate_validation" {
   certificate_arn         = aws_acm_certificate.compute_certificate.arn
   validation_record_fqdns = [aws_route53_record.compute_dns_challenge.fqdn]
 }
-
