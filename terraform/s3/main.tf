@@ -6,10 +6,3 @@ provider "aws" {
   profile = "uvsy-dev"
   region = var.region
 }
-
-
-module "serverless-deploy-bucket" {
-  source = "./serverless"
-  stage = local.stage
-  region = var.region
-}

@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "serverless_deploy_bucket" {
-  bucket = "${var.stage}.${var.region}.universy.serverless.deploys"
+  bucket = "${local.stage}.${var.region}.universy.serverless.deploys"
   acl    = "private"
 
   tags = {
