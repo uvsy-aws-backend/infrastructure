@@ -1,6 +1,6 @@
 resource "aws_ses_email_identity" "main_email" {
   email = "info.universy@gmail.com"
-  provider = aws.cognito-aws
+  provider = aws.us
 }
 
 data "aws_iam_policy_document" "main_email_policy_document" {
@@ -13,12 +13,12 @@ data "aws_iam_policy_document" "main_email_policy_document" {
       type        = "AWS"
     }
   }
-  provider = aws.cognito-aws
+  provider = aws.us
 }
 
 resource "aws_ses_identity_policy" "main_email_policy" {
   identity = aws_ses_email_identity.main_email.arn
   name     = "main_email_policy"
   policy   = data.aws_iam_policy_document.main_email_policy_document.json
-  provider = aws.cognito-aws
+  provider = aws.us
 }

@@ -8,9 +8,9 @@ provider "aws" {
 }
 
 provider "aws" {
-  alias = "cognito-aws"
+  alias = "us"
   version = "~> 2.25"
   profile = "uvsy-dev"
-  region = var.cognito_region
+  region = var.us_region
 }
 

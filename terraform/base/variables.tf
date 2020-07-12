@@ -6,6 +6,6 @@ variable "region" {
   default = "sa-east-1"
 }
 
-variable "cognito_region" {
+variable "us_region" {
   default = "us-east-1"
 }
