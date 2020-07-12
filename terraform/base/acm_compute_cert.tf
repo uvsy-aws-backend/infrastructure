@@ -1,9 +1,3 @@
-
-
-/*
----------- *.compute.universy.app ----------
-*/
-
 # Certificate
 resource "aws_acm_certificate" "compute_certificate" {
   domain_name       = "*.compute.universy.app"
