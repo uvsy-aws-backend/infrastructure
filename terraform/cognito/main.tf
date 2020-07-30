@@ -7,3 +7,9 @@ provider "aws" {
   region  = var.region
 }
 
+provider "aws" {
+  alias = "us"
+  version = "~> 2.25"
+  profile = "uvsy-dev"
+  region = var.us_region
+}

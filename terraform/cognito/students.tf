@@ -1,37 +1,11 @@
 resource "aws_cognito_user_pool" "students" {
-  name = "${var.stage}-students"
+  name = "${local.stage}-students"
+  provider = aws.us
 
-  schema {
-    developer_only_attribute = false
-    attribute_data_type = "String"
-    name = "email"
-    required = true
-    string_attribute_constraints {
-      min_length = 0
-      max_length = 2048
-    }
-  }
+  username_attributes = ["email"]
 
-  schema {
-    developer_only_attribute = false
-    attribute_data_type = "String"
-    name = "family_name"
-    required = true
-    string_attribute_constraints {
-      min_length = 0
-      max_length = 2048
-    }
-  }
-
-  schema {
-    developer_only_attribute = false
-    attribute_data_type = "String"
-    name = "given_name"
-    required = true
-    string_attribute_constraints {
-      min_length = 0
-      max_length = 2048
-    }
+  username_configuration {
+    case_sensitive = false
   }
 
   password_policy {
@@ -53,7 +27,21 @@ resource "aws_cognito_user_pool" "students" {
   }
 
   email_configuration {
-    # TODO: Migrate to SES
+    # TODO: Migrate to SES proper configuration before any mass launch
     source_arn = "arn:aws:ses:us-east-1:${local.accountId}:identity/info.universy@gmail.com"
   }
+}
+
+resource "aws_cognito_user_pool_client" "universy-mobile-client" {
+  provider = aws.us
+  user_pool_id = aws_cognito_user_pool.students.id
+  name = "${local.stage}-mobile-client"
+
+  explicit_auth_flows = [
+    "USER_PASSWORD_AUTH"
+  ]
+
+  refresh_token_validity = 30
+
+  generate_secret = false
 }
