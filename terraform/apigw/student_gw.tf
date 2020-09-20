@@ -54,10 +54,7 @@ resource "aws_api_gateway_integration" "student_instapi_integration" {
   }
 }
 
-/// Institution related resources
-
-/// The student mobile application will only be able to perform
-/// GET operations over this resources.
+/// Student related resources
 
 resource "aws_api_gateway_resource" "student_stdnapi_resource" {
   rest_api_id = aws_api_gateway_rest_api.student_gw.id
@@ -95,10 +92,52 @@ resource "aws_api_gateway_integration" "student_stdnapi_integration" {
   }
 }
 
+/// Rating Related resources
+
+resource "aws_api_gateway_resource" "student_rtngapi_resource" {
+  rest_api_id = aws_api_gateway_rest_api.student_gw.id
+  parent_id = aws_api_gateway_rest_api.student_gw.root_resource_id
+  path_part = "rtngapi"
+}
+
+resource "aws_api_gateway_resource" "student_rtngapi_proxy_resource" {
+  rest_api_id = aws_api_gateway_rest_api.student_gw.id
+  parent_id = aws_api_gateway_resource.student_rtngapi_resource.id
+  path_part = "{proxy+}"
+}
+
+resource "aws_api_gateway_method" "student_rtngapi_proxy_get" {
+  rest_api_id = aws_api_gateway_rest_api.student_gw.id
+  resource_id = aws_api_gateway_resource.student_rtngapi_proxy_resource.id
+  http_method = "ANY"
+  authorization = "NONE"
+
+  request_parameters = {
+    "method.request.path.proxy" = true
+  }
+}
+
+resource "aws_api_gateway_integration" "student_rtngapi_integration" {
+  rest_api_id = aws_api_gateway_rest_api.student_gw.id
+  resource_id = aws_api_gateway_resource.student_rtngapi_proxy_resource.id
+  http_method = aws_api_gateway_method.student_rtngapi_proxy_get.http_method
+  integration_http_method = aws_api_gateway_method.student_rtngapi_proxy_get.http_method
+  type = "HTTP_PROXY"
+  uri = "https://ratings-api-${local.stage}.compute.universy.app/v1/{proxy}"
+
+  request_parameters = {
+    "integration.request.path.proxy" = "method.request.path.proxy"
+  }
+}
+
+// Deployment 
+
+
 resource "aws_api_gateway_deployment" "student_gw_deploy" {
   depends_on = [
     aws_api_gateway_integration.student_instapi_integration,
-    aws_api_gateway_integration.student_stdnapi_integration
+    aws_api_gateway_integration.student_stdnapi_integration,
+    aws_api_gateway_integration.student_rtngapi_integration,
   ]
 
 
