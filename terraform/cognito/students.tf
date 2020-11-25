@@ -32,7 +32,7 @@ resource "aws_cognito_user_pool" "students" {
   }
 }
 
-resource "aws_cognito_user_pool_client" "universy-mobile-client" {
+resource "aws_cognito_user_pool_client" "universy_mobile_client" {
   provider = aws.us
   user_pool_id = aws_cognito_user_pool.students.id
   name = "${local.stage}-mobile-client"
@@ -44,4 +44,21 @@ resource "aws_cognito_user_pool_client" "universy-mobile-client" {
   refresh_token_validity = 30
 
   generate_secret = false
+}
+
+resource "aws_ssm_parameter" "cognito_user_pool_id_ssm" {
+
+  name = "/${local.stage}/cognito/students/poolId"
+  type = "String"
+  value = aws_cognito_user_pool.students.id
+  Knowl
+  provider = aws
+}
+
+resource "aws_ssm_parameter" "cognito_client_id_ssm" {
+
+  name = "/${local.stage}/cognito/students/clientId"
+  type = "String"
+  value = aws_cognito_user_pool_client.universy_mobile_client.id
+  provider = aws
 }
