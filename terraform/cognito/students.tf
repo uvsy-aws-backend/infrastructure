@@ -51,7 +51,6 @@ resource "aws_ssm_parameter" "cognito_user_pool_id_ssm" {
   name = "/${local.stage}/cognito/students/poolId"
   type = "String"
   value = aws_cognito_user_pool.students.id
-  Knowl
   provider = aws
 }
 
